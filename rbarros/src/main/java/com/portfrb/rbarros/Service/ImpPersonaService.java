@@ -3,30 +3,35 @@ package com.portfrb.rbarros.Service;
 import com.portfrb.rbarros.Entity.Persona;
 import com.portfrb.rbarros.Interface.IPersonaService;
 import com.portfrb.rbarros.Repository.IPersonaRepository;
+import jakarta.transaction.Transactional;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@Transactional
 public class ImpPersonaService implements IPersonaService{
-    @Autowired IPersonaRepository iperRepo;
+    @Autowired IPersonaRepository ipersonaRepository;
+    
     @Override
     public List<Persona> getPersona() {
-        return iperRepo.findAll();
+        List<Persona> persona = ipersonaRepository.findAll();
+        return persona;
     }
 
     @Override
-    public void savePersona(Persona per) {
-        iperRepo.save(per);
+    public void savePersona(Persona persona) {
+        ipersonaRepository.save(persona);
     }
 
     @Override
     public void deletePersona(Long id) {
-        iperRepo.deleteById(id);
+        ipersonaRepository.deleteById(id);
     }
 
     @Override
     public Persona findPersona(Long id) {
-        return iperRepo.findById(id).orElse(null);
+        Persona persona = ipersonaRepository.findById(id).orElse(null);
+        return persona;
     }
 }

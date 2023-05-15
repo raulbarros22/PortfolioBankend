@@ -15,31 +15,35 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class PersonaController {
-     @Autowired IPersonaService iperServ;
+     @Autowired IPersonaService ipersonaService;
     
     @GetMapping("/personas/traer")
     public List<Persona> getPersona(){
-        return iperServ.getPersona();
+        return ipersonaService.getPersona();
     }
     
     @PostMapping("/personas/crear")
-    public void createPersona(@RequestBody Persona per){
-        iperServ.savePersona(per);
+    public String createPersona(@RequestBody Persona persona){
+        ipersonaService.savePersona(persona);
+        return "La persona fue agregada correctamente.";
     }
     
     @DeleteMapping("/personas/borrar/{id}")
-    public void deletePersona(@PathVariable Long id){
-        iperServ.deletePersona(id);
+    public String deletePersona(@PathVariable Long id){
+        ipersonaService.deletePersona(id);
+        return "La persona fue eliminada correctamente.";
     }
     
     @PutMapping("/personas/editar/{id}")
     public Persona editPersona(@PathVariable Long id,
                                @RequestParam("nombre") String nuevoNombre,
-                               @RequestParam("apellido") String nuevoApellido){
-        Persona per = iperServ.findPersona(id);
-        per.setNombre(nuevoNombre);
-        per.setApellido(nuevoApellido);
-        iperServ.savePersona(per);
-        return per;
+                               @RequestParam("apellido") String nuevoApellido,
+                               @RequestParam("img") String nuevoImg){
+        Persona persona = ipersonaService.findPersona(id);
+        persona.setNombre(nuevoNombre);
+        persona.setApellido(nuevoApellido);
+        persona.setImg(nuevoImg);
+        ipersonaService.savePersona(persona);
+        return persona;
     }
 }
